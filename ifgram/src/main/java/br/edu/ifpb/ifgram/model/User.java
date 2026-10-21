@@ -1,6 +1,8 @@
 package br.edu.ifpb.ifgram.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuarios")
@@ -17,6 +19,23 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // + construtor sem argumentos (exigido pelo JPA) e os getters
+    public User(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setNome(@Size(min=3) @NotNull String nome) {
+    }
 }

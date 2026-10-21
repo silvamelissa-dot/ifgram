@@ -1,24 +1,42 @@
-package Controller;
+package br.edu.ifpb.ifgram.controller;
 
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-    @RestController
-       @RequestMapping("user")
+import br.edu.ifpb.ifgram.service.UserService;
+import br.edu.ifpb.ifgram.dto.UserRequest;
+import br.edu.ifpb.ifgram.dto.UserResponse;
 
-    public class UserController {
+@RestController
+@RequestMapping("user")
+public class UserController {
 
-        @GetMapping
-        public String getUser() {
-            return "chamei o endpoint como um GET!";
+    public final UserService service;
 
-        }
-        @PostMapping
-        public String postUser(){
-            return "chamei o endpoit como um POST!";
-        }
-        @DeleteMapping
-        public String deleteUser(){
-            return "chamei o endpoint como um DELETE!";
-        }
+    public UserController(UserService service){
+        this.service = service;
     }
 
+
+    @GetMapping
+    public List<UserResponse> getUsers(){
+        List<UserResponse> listaUsuarios = service.buscarTodosUsuarios();
+        return listaUsuarios;
+    }
+
+    @PostMapping
+    public UserResponse postUser(UserRequest request) throws Exception {
+        UserResponse userResponse = service.cria(request);
+        return userResponse;
+    }
+
+    @DeleteMapping
+    public String deleteUser(){
+        return "chamei o endpoint como um DELETE!";
+    }
+
+}
